@@ -19,9 +19,14 @@ final class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
+        $this->call([
+            SubscriptionLimitSeeder::class,
+        ]);
+
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'name' => 'Super Admin',
+            'email' => 'admin@example.com',
+            'is_super_admin' => true,
         ]);
     }
 }
