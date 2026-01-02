@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
-final class User extends Authenticatable
+final class User extends Authenticatable implements MustVerifyEmail
 {
+    use HasApiTokens;
     use HasFactory;
     use Notifiable;
 
@@ -34,6 +37,13 @@ final class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    private string $guard_name = 'api';
+
+    public function subscription(): HasOne
+    {
+        return $this->hasOne(Subscription::class);
+    }
 
     /**
      * Get the attributes that should be cast.
