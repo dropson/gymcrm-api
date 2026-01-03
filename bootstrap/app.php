@@ -25,6 +25,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->alias([
             'verified' => App\Http\Middleware\EnsureEmailIsVerified::class,
+            'subscription.feature' => App\Http\Middleware\CheckSubscriptionFeature::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
