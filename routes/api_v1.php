@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\API\V1\Club\ClubController;
+use App\Http\Controllers\API\V1\Profile\SubscribeController;
 use App\Http\Controllers\API\V1\ProfileController;
 use App\Http\Resources\V1\UserResource;
 use Illuminate\Http\Request;
@@ -11,11 +13,21 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::middleware('verified')->group(function () {});
 
+    Route::prefix('clubs')->group(function () {
+        Route::get('/', [ClubController::class, 'index']);
+        Route::post('/', [ClubController::class, 'store']);
+
+        Route::prefix('{club:slug}')->group(function () {
+            Route::get('/', [ClubController::class, 'show']);
+        });
+    });
+
     Route::get('/me', function (Request $request) {
         return new UserResource($request->user());
     });
 
     Route::prefix('profile')->group(function () {
+        Route::post('/subscription', [SubscribeController::class, 'update']);
         // Route::get('/', [ProfileController::class, 'show']);
         // Route::post('/update', [ProfileController::class, 'updateProfile']);
         // Route::post('/avatar', [ProfileController::class, 'setAvatar']);

@@ -17,16 +17,16 @@ final class SubscriptionLimitSeeder extends Seeder
         SubscriptionLimit::insert([
             [
                 'plan' => 'free',
-                'max_clubs' => 1,
-                'max_managers_per_club' => 1,
-                'max_trainers_per_club' => 3,
+                'max_clubs' => 2,
+                'max_managers_per_club' => 2,
+                'max_trainers_per_club' => 5,
                 'analytics_access' => false,
                 'inventory_access' => false,
             ],
             [
                 'plan' => 'premium',
-                'max_clubs' => 3,
-                'max_managers_per_club' => 5,
+                'max_clubs' => 4,
+                'max_managers_per_club' => 3,
                 'max_trainers_per_club' => 10,
                 'analytics_access' => true,
                 'inventory_access' => false,
