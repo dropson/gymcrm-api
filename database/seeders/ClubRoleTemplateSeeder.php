@@ -17,6 +17,7 @@ final class ClubRoleTemplateSeeder extends Seeder
                 'permissions' => json_encode([
                     'can_manage_club' => true,
                     'can_manage_users' => true,
+                    'can_manage_trainers' => true,
                     'can_view_analytics' => true,
                     'can_manage_inventory' => true,
                 ]),
@@ -25,6 +26,7 @@ final class ClubRoleTemplateSeeder extends Seeder
                 'role' => 'manager',
                 'permissions' => json_encode([
                     'can_manage_users' => true,
+                    'can_manage_trainers' => true,
                     'can_view_analytics' => true,
                     'can_manage_inventory' => false,
                 ]),
@@ -32,8 +34,9 @@ final class ClubRoleTemplateSeeder extends Seeder
             [
                 'role' => 'trainer',
                 'permissions' => json_encode([
-                    'can_manage_users' => false,
+                    'can_manage_users' => true,
                     'can_view_analytics' => false,
+                    'can_manage_trainers' => false,
                     'can_manage_inventory' => false,
                 ]),
             ],

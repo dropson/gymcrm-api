@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\API\V1\Club\ClubController;
+use App\Http\Controllers\API\V1\ClubContextController;
 use App\Http\Controllers\API\V1\Profile\SubscribeController;
 use App\Http\Controllers\API\V1\ProfileController;
 use App\Http\Resources\V1\UserResource;
@@ -18,6 +19,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/', [ClubController::class, 'store']);
 
         Route::prefix('{club:slug}')->group(function () {
+            Route::get('/context', ClubContextController::class);
             Route::get('/', [ClubController::class, 'show']);
         });
     });

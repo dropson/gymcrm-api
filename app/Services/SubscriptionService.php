@@ -29,20 +29,20 @@ final class SubscriptionService
 
         return [
             'analytics' => $limits->analytics_access,
-            'inventiry' => $limits->inventory_access,
+            'inventory' => $limits->inventory_access,
         ];
     }
 
-    public function canCreateClub(User $user): bool
-    {
-        $limits = $this->limits($user);
+    // public function canCreateClub(User $user): bool
+    // {
+    //     $limits = $this->limits($user);
 
-        if ($limits->max_clubs === null) {
-            return true;
-        }
+    //     if ($limits->max_clubs === null) {
+    //         return true;
+    //     }
 
-        return $user->clubs()->count() < $limits->max_clubs;
-    }
+    //     return $user->clubs()->count() < $limits->max_clubs;
+    // }
 
     public function ensureCanCreateClub(User $user): void
     {
