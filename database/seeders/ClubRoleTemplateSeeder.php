@@ -25,6 +25,7 @@ final class ClubRoleTemplateSeeder extends Seeder
             [
                 'role' => 'manager',
                 'permissions' => json_encode([
+                    'can_manage_club' => true,
                     'can_manage_users' => true,
                     'can_manage_trainers' => true,
                     'can_view_analytics' => true,

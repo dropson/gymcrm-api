@@ -59,6 +59,11 @@ final class Club extends Model
                 $club->slug = self::generateUniqueSlug($club);
             }
         });
+        self::updating(function (Club $club): void {
+            if ($club->isDirty('name') && ! $club->isDirty('slug')) {
+                $club->slug = self::generateUniqueSlug($club);
+            }
+        });
     }
 
     protected static function generateUniqueSlug(self $club): string
@@ -77,7 +82,11 @@ final class Club extends Model
         $slug = $base;
         $i = 1;
 
-        while (self::where('slug', $slug)->exists()) {
+        while (
+            self::where('slug', $slug)
+                ->where('id', '!=', $club->id)
+                ->exists()
+        ) {
             $slug = sprintf('%s-%d', $base, $i);
             $i++;
         }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\API\V1;
+namespace App\Http\Controllers\API\V1\Club;
 
 use App\Http\Controllers\Controller;
 use App\Models\Club;

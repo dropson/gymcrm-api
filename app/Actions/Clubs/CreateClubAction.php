@@ -8,11 +8,15 @@ use App\DTOs\CreateClubDTO;
 use App\Enums\ClubRole;
 use App\Enums\ClubUserStatus;
 use App\Models\Club;
+use App\Services\MediaService;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
-final class CreateClubAction
+final readonly class CreateClubAction
 {
+    public function __construct(
+        private MediaService $mediaService
+    ) {}
+
     public function handle(CreateClubDTO $data)
     {
         return DB::transaction(function () use ($data): Club {
@@ -28,15 +32,17 @@ final class CreateClubAction
             ]);
 
             if ($data->logo_path instanceof \Illuminate\Http\UploadedFile) {
-                $filename = time().'_'.Str::random(6).'.'.$data->logo_path->getClientOriginalExtension();
-                $path = $data->logo_path->storeAs('clubs', $filename, 'public');
-                $club->logo_path = $path;
+                $club->logo_path = $this->mediaService->upload(
+                    $data->logo_path,
+                    'clubs/logos'
+                );
             }
 
             if ($data->cover_path instanceof \Illuminate\Http\UploadedFile) {
-                $filename = time().'_'.Str::random(6).'.'.${$data}->cover_path->getClientOriginalExtension();
-                $path = $data->cover_path->storeAs('clubs', $filename, 'public');
-                $club->cover_path = $path;
+                $club->cover_path = $this->mediaService->upload(
+                    $data->cover_path,
+                    'clubs/covers'
+                );
             }
 
             $club->save();

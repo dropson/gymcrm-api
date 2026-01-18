@@ -49,6 +49,14 @@ final class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Club::class, 'owner_id');
     }
 
+    public function hasClubRole(Club $club, string $role): bool
+    {
+        return $this->clubs()
+            ->where('club_id', $club->id)
+            ->wherePivot('role', $role)
+            ->exists();
+    }
+
     public function hasClubPermission(Club $club, string $permission): bool
     {
         $pivot = $this->clubs()
