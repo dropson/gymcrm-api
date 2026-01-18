@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
+use App\Exceptions\SubscriptionLimitException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\HttpFoundation\Response;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -29,5 +31,13 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+
+        $exceptions->render(fn (SubscriptionLimitException $e, $request) => response()->json([
+            'message' => $e->getMessage(),
+            'code' => 'SUBSCRIPTION_LIMIT',
+            'upgrade_required' => true,
+            'resource' => $e->resource,
+            'limit' => $e->limit,
+            'plan' => $e->plan,
+        ], Response::HTTP_FORBIDDEN));
     })->create();
